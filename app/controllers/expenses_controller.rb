@@ -4,7 +4,8 @@ class ExpensesController < ApplicationController
   # GET /expenses
   # GET /expenses.json
   def index
-    @expenses = Expense.all
+    @expenses = Expense.this_month
+    @sum = sum_expenses(@expenses)
   end
 
   # GET /expenses/1
@@ -65,6 +66,24 @@ class ExpensesController < ApplicationController
       format.html { redirect_to expenses_url, notice: 'Expense was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def test
+    @expenses = Expense.this_month
+    @monthly = {}
+    Expense.all.group_by{ |m| m.created_at.beginning_of_month }.each_pair do |month, expenses|
+      @monthly[month] = sum_expenses(expenses)
+    end
+  end
+
+  def sum_expenses expenses
+    @sum_expense = 0
+    expenses.each do |each|
+      if each.type_id == 0
+        @sum_expense += each.amount
+      end
+    end
+    @sum_expense
   end
 
   private
