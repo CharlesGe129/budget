@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Expenses</h1>
+<h1>This month: $<%= @sum %></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Month</th>
+      <th>Expenses</th>
+      <th>Incomes</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @monthly.each_pair do |month, value| %>
+      <tr>
+        <td><%= month.to_s[0..10] %></td>
+        <td>$<%= value[:expense] %></td>
+        <td>$<%= value[:income] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Expense', new_expense_path %>
