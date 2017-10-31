@@ -4,7 +4,7 @@ class ExpensesController < ApplicationController
   # GET /expenses
   # GET /expenses.json
   def index
-    @expenses = Expense.this_month
+    @expenses = Expense.this_month.order(:created_at)
     @sum = sum_expenses(@expenses)
   end
 
