@@ -15,7 +15,7 @@
     <% @monthly.each_pair do |month, value| %>
       <tr>
         <td><%= month.to_s[0..10] %></td>
-        <td>$<%= value[:expense] %></td>
+        <td><a href="/stat/<%= month.year.to_s + month.month.to_s %>" >$<%= value[:expense] %></a></td>
         <td>$<%= value[:income] %></td>
       </tr>
     <% end %>

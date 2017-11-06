@@ -20,4 +20,18 @@ class StatController < ApplicationController
     end
     { :expense => @sum_expense, :income => @sum_income}
   end
+
+  def month
+    month = Time.local(params[:month][0..3], params[:month][4..6], 1).to_s[0..9]
+    @categories = Category.all
+    @expenses = Expense.where("expenses.created_at like '#{month[0..7]}%'").where('type_id = ?', 0)
+                    .joins(:category).group(:category_id).sum(:amount)
+    @months = []
+    @expenses.each do |expense|
+      @month = {}
+      @month[:amount] = expense[1]
+      @month[:category] = @categories.find(expense[0]).name
+      @months.append @month
+    end
+  end
 end
