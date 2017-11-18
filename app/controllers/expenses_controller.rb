@@ -5,7 +5,7 @@ class ExpensesController < ApplicationController
   # GET /expenses.json
   def index
     @expenses = Expense.this_month.order(:created_at)
-    @sum = sum_expenses(@expenses)
+    @sum, @avg = sum_expenses(@expenses)
   end
 
   # GET /expenses/1
@@ -83,7 +83,8 @@ class ExpensesController < ApplicationController
         @sum_expense += each.amount
       end
     end
-    @sum_expense
+    @avg_expense = @sum_expense / Date.today.day
+    return @sum_expense, @avg_expense.round(2)
   end
 
   private
