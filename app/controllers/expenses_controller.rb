@@ -81,6 +81,8 @@ class ExpensesController < ApplicationController
     expenses.each do |each|
       if each.type_id == 0
         @sum_expense += each.amount
+      elsif each.type_id == 1
+        @sum_expense -= each.amount
       end
     end
     @avg_expense = @sum_expense / Date.today.day
